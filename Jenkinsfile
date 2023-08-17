@@ -48,6 +48,7 @@ pipeline {
 										print(os.environ['TEST'])"
 										""".stripIndent(), returnStdout: true).trim()
 					println ACTIVE_CONNECTORS
+					sh 'ls -lart'
 					//sh 'pwd;python3 /my_app/FileHandler_v1.py'
 					echo "${BUILD}"
 				}
