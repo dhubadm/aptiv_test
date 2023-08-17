@@ -72,6 +72,7 @@ def replace_fd22():
 def replace_fd02():
     global filedata
     print("[DEBUG] Executing >>> ", sys._getframe().f_code.co_name)
+    print(glob.glob(dbc_filepath + 'P' + BUILD + '*FDCAN*.dbc') + "...........")
     for file_name in glob.glob(dbc_filepath + 'P' + BUILD + '*FDCAN*.dbc'): 
         with open(file_name, 'r') as file :
             FDCAN = file.read() 
