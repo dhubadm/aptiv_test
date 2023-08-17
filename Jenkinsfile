@@ -28,7 +28,7 @@ pipeline {
                 script {
 					params.each {param ->
 						//if ("${param.value.trim()}" == "") {ex("'${param.key.trim()}'")}
-						#println " '${param.key.trim()}' -> '${param.value.trim()}' "
+						//println " '${param.key.trim()}' -> '${param.value.trim()}' "
 						println '${param.key.trim()}'
 						env.'${param.key.trim()}' = '${param.value.trim()}'
 					}
