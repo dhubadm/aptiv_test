@@ -10,8 +10,8 @@ pipeline {
         string(defaultValue: '0x01', name: 'PATCH',trim: true, description: 'Provide PATCH as 0x..')	
     }
     environment {
-	BUILD = ${params.BUILD}
-	PATCH = ${params.PATCH}
+	BUILD = "${params.BUILD}"
+	PATCH = "${params.PATCH}"
     }
     stages {
         stage("Validate Parameters") {
