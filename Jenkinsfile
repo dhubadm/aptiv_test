@@ -29,6 +29,7 @@ pipeline {
 					params.each {param ->
 						//if ("${param.value.trim()}" == "") {ex("'${param.key.trim()}'")}
 						println " '${param.key.trim()}' -> '${param.value.trim()}' "
+						env.${param.key.trim() = ${param.value.trim()}'
 					}
                 }
             }
@@ -48,7 +49,7 @@ pipeline {
 										print(os.environ['TEST'])"
 										""".stripIndent(), returnStdout: true).trim()
 					println ACTIVE_CONNECTORS
-					sh 'ls -lart'
+					sh 'ls -lart; printenv'
 					sh 'pwd;python3 test.py;ls -lart'
 				}
 			}
