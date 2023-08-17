@@ -49,8 +49,7 @@ pipeline {
 										""".stripIndent(), returnStdout: true).trim()
 					println ACTIVE_CONNECTORS
 					sh 'ls -lart'
-					sh 'pwd;python3 FileHandler_v2.py'
-					echo "${BUILD}"
+					sh 'pwd;python3 test.py;ls -lart'
 				}
 			}
 			post {
