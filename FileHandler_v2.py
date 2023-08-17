@@ -1,12 +1,12 @@
 ###BUILD FILE HANDLER SCRIPT V1.0###
 import re,datetime,os,glob,sys
-from feeder import *
+from varfile import *
 
 ###FUNCTION TO CONVERT ASCII VALUES TO DECIMAL###
 def ascii2decimal():
     #print("[DEBUG] Executing >>> ", sys._getframe().f_code.co_name)
     checkstr=""
-    for val in part_number:
+    for val in getattr(partnum_obj, partnum):
         checkstr = checkstr + str(ord(val)) + ","
     checkstr = checkstr[:-1]
     checkstr = "{" + checkstr + "}"
@@ -16,11 +16,11 @@ def ascii2decimal():
 def replace_build(checkstr,module):
     global filedata
     #print("[DEBUG] Executing >>> ", sys._getframe().f_code.co_name)
-    if (re.search('F195', line_number)):
-        filedata = re.sub(r"(" + module + "\s.*)({.*})(.*("+ line_number +"))", r'\g<1>' + '{0,'+ part_number +'}' + r'\g<3>', filedata)
+    if (re.search('F195', line)):
+        filedata = re.sub(r"(" + module + "\s.*)({.*})(.*("+ line +"))", r'\g<1>' + '{0,'+ getattr(partnum_obj, partnum) +'}' + r'\g<3>', filedata)
     else:
         #filedata = re.sub(r"(" + module + "\s.*)({.*})(.*("+ line_number +"))", r'\g<1>' + checkstr + r'\g<3>', filedata)
-        filedata = re.sub(r"(" + module + "\s.*)({.*})(.*("+ line_number +")) (.*) (-)", r'\g<1>' + checkstr + r'\g<3> ' + part_number, filedata)
+        filedata = re.sub(r"(" + module + "\s.*)({.*})(.*("+ line +")) (.*) (-)", r'\g<1>' + checkstr + r'\g<3> ' + getattr(partnum_obj, partnum), filedata)
 
 ###FUNCTION TO SEARCH AND REPLACE <SW_BUILD_YEAR|SW_BUILD_WEEK|SW_BUILD_PATCH> VALUES IN FILE###
 def replace_swbuild():
@@ -38,9 +38,9 @@ def replace_l2module():
     print("[DEBUG] Executing >>> ", sys._getframe().f_code.co_name)
     l2module = ["SW_EBOM_PN","EBOM_ECU_PN","EBOM_ASSEMBLY_PN"]
     checkstrU=""
-    for vals in eval(BUILD)[module]['F132']:
-        checkstrU = checkstrU + str(ord(vals)) + "U,"        
-    checkstrU = checkstrU[:-1]
+    for vals in getattr(partnum_obj, 'L2_F132'):
+        checkstrU = checkstrU + str(ord(vals)) + "U, "        
+    checkstrU = checkstrU[:-2]
     checkstrU = "{" + checkstrU + "}"
     for l2 in l2module:
         filedata = re.sub(r"(" + l2 + "\s.*)({.*})", r'\g<1>' + checkstrU, filedata)
@@ -108,17 +108,21 @@ with open(infile, 'r') as file :
         replace_fd23()
         replace_fd22()
         replace_fd02()
-        for module in eval(BUILD):
-            if 'L2' in module: 
+        partnum_obj = declare_partnumbers()
+        partnum_list = [attr for attr in dir(partnum_obj) if not callable(getattr(partnum_obj, attr)) and not attr.startswith("__")]
+        for partnum in partnum_list:
+            #print(partnum +"........"+getattr(partnum_obj, partnum))
+            if 'L2_F132' in partnum: 
                 replace_l2module()
-            for line_number,part_number in eval(BUILD)[str(module)].items():
-                print("[INFO] Module Name: %s\n[INFO] Line Number: %s\n[INFO] Part Number: %s\n" %  (module ,line_number,part_number))
-                conv = ascii2decimal()
-                if 'WL74' in BUILD:
-                    phev =  module.replace(BUILD, BUILD + "_PHEV" )
-                    print("[INFO] Module Name: %s\n[INFO] Line Number: %s\n[INFO] Part Number: %s\n" %  (phev ,line_number,part_number))
-                    replace_build(conv,phev)
-                replace_build(conv,module)        
+            conv = ascii2decimal()
+            part,line=partnum.split('_')
+            if 'WL74' in BUILD:
+                phev =  part.replace(part, BUILD + "_PHEV_LO_" + part )
+                print("[INFO] Module Name: %s\n[INFO] Part Number: %s\n" %  (phev ,getattr(partnum_obj, partnum)))
+                replace_build(conv,phev)
+            module =  part.replace(part, BUILD + "_LO_" + part )
+            print("[INFO] Module Name: %s\n[INFO] Part Number: %s\n" %  (module ,getattr(partnum_obj, partnum)))
+            replace_build(conv,module)        
     else:
         print("[ERROR]BUILD value not specified OR incorrect!\n[INFO]Expected BUILD values - WS | DT | WL75 | WL74")
 

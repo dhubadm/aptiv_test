@@ -1,0 +1,545 @@
+/***********************************************************************************************************************
+ *  FILE DESCRIPTION
+ *  ------------------------------------------------------------------------------------------------------------------*/
+/** \file
+ *  \brief         File Data for Application SWL1
+ *  --------------------------------------------------------------------------------------------------------------------
+ */
+/**********************************************************************************************************************/
+
+#ifndef __FILE_DATA_H__
+#define __FILE_DATA_H__
+
+/***********************************************************************************************************************
+ *  DEFINES
+ **********************************************************************************************************************/
+
+#define HEADERSIZE                        0  
+#define FILESIZE                          0  
+#define FILEDIGEST                       {0} 
+#define SIGNINGNAME                      {0} 
+#define SIGNINGKEYIDENTIFIER             {0} 
+#define TARGETNAME                       {0} 
+#define ROLLBACKID                        48  
+#define COMPATIBILITYID                   0  
+#define UUID                             {0} 
+#define HEADERSIGNATURE                  {0} 
+
+#define HEADER_FOOTER_ADDRESS             0
+#define SW_BUILD_YEAR                     0x17
+#define SW_BUILD_WEEK                     0x14
+#define SW_BUILD_PATCH                    0x01
+
+ /* Byte0:CV_SWL1 Byte1:CV_SWL2 Byte2:CV_SWL3 Byte3:CV_SWP1 Byte4:CV_SWP2 Byte5:CV_SWP4
+    Byte6:CV_SWL_MRR Byte7:CV_SWL_LRRF Byte8:CV_TR_APP1 Byte9;CV_TR_APP2 */
+	
+#define SW_IDENTIFICATION_SWL1                {48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U}
+#define SW_IDENTIFICATION_SWL2                {48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U}
+#define SW_IDENTIFICATION_SWL3                {48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U}
+#define SW_IDENTIFICATION_SWP1                {48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U}
+#define SW_IDENTIFICATION_SWP2                {48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U}
+#define SW_IDENTIFICATION_SWP4                {48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U, 48U}
+
+
+#define SW_EBOM_PN                       {54U, 56U, 54U, 49U, 56U, 53U, 54U, 55U, 90U, 87U}
+#define EBOM_ECU_PN                      {54U, 56U, 54U, 49U, 56U, 53U, 54U, 55U, 90U, 87U}
+#define EBOM_ASSEMBLY_PN                 {54U, 56U, 54U, 49U, 56U, 53U, 54U, 55U, 90U, 87U}
+#define EYEQ4_API_MAJOR_VERSION           0x18
+#define EYEQ4_API_MINOR_VERSION           0x05
+#define EYEQ4_SW_MAJOR_VERSION            0x18
+#define EYEQ4_SW_MINOR_VERSION            0x05
+#define CV_BOOT                           0x30
+#define RESERVED                         {0}
+#define COMPATIBILITYID                   0
+#define ECU_DDT_VERSION                  {0,0,0,0} /* 24WL CADM LO - WI-48210*/
+#define CODEP_PN                         {32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U}
+
+
+#define VEH_MNF_ECU_SN                   {32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U}
+#define VEH_MNF_ECU_SCN                  {32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U}
+#define VEH_MNF_ECU_SAN                  {32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U, 32U}
+#define SUPLR_MNF_ECU_SW_PN              {68U, 75U, 51U, 52U, 52U, 57U, 55U, 55U, 32U, 32U, 32U}
+#define SUPLR_MNF_ECU_SW_VN              {0,7}
+#define CERTSTORE                        {0}
+#define DCL                              {0}
+
+#define SWPX_DATE_STAMP                  {0}
+#define SECOND_RESERVE                   {0xFF,0xFF}
+
+#define SWLX_FOOTER_SIGNATURE            {0}
+#define SWLX_FOOTER_CKSUM                {0}
+
+#define SWPX_FOOTER_SIGNATURE            {0}
+#define SWPX_FOOTER_CKSUM                {0}
+
+/* DT Lo L1 */
+#define	EBOM_ECU_PN_DT_Lo_L1        				{48,52,54,55,50,57,49,55,65,70} /* F132 04672917AF - L1  DT3.0ER2 PWB3  Release */
+#define	EBOM_ASSEMBLY_PN_DT_Lo_L1 			        {48,52,54,55,50,57,49,55,65,70} /* F133 04672917AF - L1  DT3.0ER2 PWB3  Release */
+#define	SUPLR_MNF_ECU_SW_PN_DT_Lo_L1				{50,56,56,50,48,57,55,53,32,32,32} /* F194 L1  DT3.0ER2 PWB3 Release - 28820975 */
+#define	SUPLR_MNF_ECU_SW_VN_DT_Lo_L1 				{0,17} /* F195 */
+
+/* DT Lo L2 */
+#define	EBOM_ECU_PN_DT_Lo_L2					    {48,52,54,55,50,57,49,57,65,70} /* F132 04672919AF - L2 DT3.0ER2 PWB3  Release */
+#define	EBOM_ASSEMBLY_PN_DT_Lo_L2      			    {48,52,54,55,50,57,49,57,65,70} /* F133 04672919AF - L2 DT3.0ER2 PWB3  Release */
+#define	SUPLR_MNF_ECU_SW_PN_DT_Lo_L2			    {50,56,56,50,48,57,56,54,32,32,32} /* F194 L2 DT3.0ER2 PWB3 Release  - 28820986 */
+#define	SUPLR_MNF_ECU_SW_VN_DT_Lo_L2 				{0,16} /* F195 */
+
+/* DT Lo L1P  */
+#define	EBOM_ECU_PN_DT_Lo_L1P 					    {48,52,54,55,50,57,49,56,65,70} /* F132 04672918AF  - L1P DT3.0ER2 PWB3  Release */
+#define	EBOM_ASSEMBLY_PN_DT_Lo_L1P 		            {48,52,54,55,50,57,49,56,65,70} /* F133 04672918AF  - L1P DT3.0ER2 PWB3  Release */
+#define	SUPLR_MNF_ECU_SW_PN_DT_Lo_L1P   			{50,56,56,50,48,57,56,49,32,32,32} /* F194 L1P DT3.0ER2 PWB3 Release Release - 28820981 */
+#define	SUPLR_MNF_ECU_SW_VN_DT_Lo_L1P 			    {0,18} /* F195 */
+
+/* M182_M189_LO_L2_CHINA */
+#define	CODEP_ECU_PN_M182_M189_LO_L2_CHINA					{54,55,48,50,49,54,57,54,51,32,32} /* F187 */
+#define	CODEP_ASSEMBLY_ECU_PN_M182_M189_LO_L2_CHINA		{54,55,48,50,49,54,57,54,51,32,32} /* F134 */
+#define  FCA_ESLM_ECU_SW_NUM_M182_M189_LO_L2_CHINA 		{54,55,48,50,49,55,48,50,52,32,32} /* F188 */
+#define	SUPLR_MNF_ECU_SW_PN_M182_M189_LO_L2_CHINA			{50,56,55,52,52,53,55,57,32,32,32} /* F194 */
+#define	SUPLR_MNF_ECU_SW_VN_M182_M189_LO_L2_CHINA			{0,41} /* F195 */
+
+// 24wl75_lo_l2
+#define	CODEP_ECU_PN_WL75_LO_L2							{48,52,54,55,50,57,51,57,90,90} /* F132 - L2 VPA 04672939ZZ */
+#define	CODEP_ASSEMBLY_ECU_PN_WL75_LO_L2				{48,52,54,55,50,57,51,57,90,90} /* F133 - L2 VPA 04672939ZZ */
+#define	SUPLR_MNF_ECU_SW_PN_WL75_LO_L2					{68,75,51,52,52,57,57,48,32,32,32} /* 24WL75 L2 - DK344990 */
+#define	SUPLR_MNF_ECU_SW_VN_WL75_LO_L2					{0,4} /* F195 */
+
+// 24wl75_lo_l1
+#define	CODEP_ECU_PN_WL75_LO_L1							{48,52,54,55,50,57,51,55,90,90} /*  F132 - L1 VPA  04672937ZZ */
+#define	CODEP_ASSEMBLY_ECU_PN_WL75_LO_L1				{48,52,54,55,50,57,51,55,90,90} /* F133 - L1 VPA 04672937ZZ */
+#define	SUPLR_MNF_ECU_SW_PN_WL75_LO_L1					{68,75,51,52,52,57,57,51,32,32,32} /* 24WL75 L1 - DK344993 */
+#define	SUPLR_MNF_ECU_SW_VN_WL75_LO_L1					{0,5} /* F195 */
+
+// 24wl75_lo_l1p
+#define	CODEP_ECU_PN_WL75_LO_L1P						{48,52,54,55,50,57,51,56,90,90} /*  F132 - L1P VPA 04672938ZZ */
+#define	CODEP_ASSEMBLY_ECU_PN_WL75_LO_L1P				{48,52,54,55,50,57,51,56,90,90} /* F133 - L1P VPA 04672938ZZ */
+#define	SUPLR_MNF_ECU_SW_PN_WL75_LO_L1P					{68,75,51,52,52,57,57,54,32,32,32} /* 24WL75 L1P - DK344996 */
+#define	SUPLR_MNF_ECU_SW_VN_WL75_LO_L1P					{0,6} /* F195 */
+
+
+// 24ws_lo_l2
+#define	CODEP_ECU_PN_WS_LO_L2							{54,56,54,48,54,48,52,57,90,90} /* 68606049ZZ - L2 23PI1S2 EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WS_LO_L2					{54,56,54,48,54,48,52,57,90,90} /* 68606049ZZ - L2 23PI1S2 EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WS_LO_L2					{68,75,51,52,53,57,54,56,32,32,32} /* 24WS L2 - DK345968 */
+#define	SUPLR_MNF_ECU_SW_VN_WS_LO_L2					{00,01}
+
+// 24ws_lo_l1
+#define	CODEP_ECU_PN_WS_LO_L1							{54,56,54,48,54,48,52,54,90,90} /* 68606046ZZ - L1 23PI1S2 EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WS_LO_L1					{54,56,54,48,54,48,52,54,90,90} /* 68606046ZZ - L1 23PI1S2 EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WS_LO_L1					{68,75,51,52,53,57,55,50,32,32,32} /* 24WS L1 - DK345972 */
+#define	SUPLR_MNF_ECU_SW_VN_WS_LO_L1					{00,02}
+
+// 24ws_lo_l1p
+#define	CODEP_ECU_PN_WS_LO_L1P							{54,56,54,48,54,48,52,55,90,90} /* 68606047ZZ - L1P 23PI1S2 EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WS_LO_L1P					{54,56,54,48,54,48,52,55,90,90} /* 68606047ZZ - L1P 23PI1S2 EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WS_LO_L1P					{68,75,51,52,53,57,55,54,32,32,32} /* 24WS L1P - DK345976 */
+#define	SUPLR_MNF_ECU_SW_VN_WS_LO_L1P					{00,03}
+
+
+// 24wl74_lo_l2 
+#define	CODEP_ECU_PN_WL74_LO_L2							{54,56,54,49,56,53,54,55,90,87} /* F132 68618567W - L2 EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WL74_LO_L2				{54,56,54,49,56,53,54,55,90,87} /* F133 68618567ZW - L2 EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WL74_LO_L2					{68,75,51,52,52,57,55,55,32,32,32} /* F194 24WL74 L2 - EOS DK344977 */
+#define	SUPLR_MNF_ECU_SW_VN_WL74_LO_L2					{00,7} /* F195 */
+
+// 24wl74_lo_l1
+#define	CODEP_ECU_PN_WL74_LO_L1							{54,56,54,49,56,53,54,53,90,87} /* F132 68618565ZW - L1 EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WL74_LO_L1				{54,56,54,49,56,53,54,53,90,87} /* F133 68618565ZW - L1 EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WL74_LO_L1					{68,75,51,52,52,57,56,52,32,32,32} /* F194 24WL74 L1 - EOS DK344984 */
+#define	SUPLR_MNF_ECU_SW_VN_WL74_LO_L1					{00,8} /* F195 */
+
+// 24wl74_lo_l1P
+#define	CODEP_ECU_PN_WL74_LO_L1P						{54,56,54,49,56,53,54,54,90,87} /* F132 68618566ZW - L1P EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WL74_LO_L1P				{54,56,54,49,56,53,54,54,90,87} /* F133 68618566ZW - L1P EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WL74_LO_L1P					{68,75,51,52,52,57,56,55,32,32,32} /*F194  24WL74 L1P - EOS DK344987 */
+#define	SUPLR_MNF_ECU_SW_VN_WL74_LO_L1P					{00,9} /* F195*/
+
+
+// 24wl74_Phev_lo_l2
+#define	CODEP_ECU_PN_WL74_PHEV_LO_L2					{54,56,54,49,56,53,54,55,90,87} /* F132 68618567ZW - L2 EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WL74_PHEV_LO_L2			{54,56,54,49,56,53,54,55,90,87} /* F133 68618567ZW - L2 EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WL74_PHEV_LO_L2				{68,75,51,52,52,57,55,55,32,32,32} /* F194 24WL74 L2 - EOS DK344977 */
+#define	SUPLR_MNF_ECU_SW_VN_WL74_PHEV_LO_L2				{00,07} /* F195*/
+
+// 24wl74_Phev_lo_l1
+#define	CODEP_ECU_PN_WL74_PHEV_LO_L1					{54,56,54,49,56,53,54,53,90,87} /* F132 68618565ZW - L1 EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WL74_PHEV_LO_L1			{54,56,54,49,56,53,54,53,90,87} /* F133 68618565ZW - L1 EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WL74_PHEV_LO_L1				{68,75,51,52,52,57,56,52,32,32,32} /* F194 24WL74 L1 - EOS DK344984 */
+#define	SUPLR_MNF_ECU_SW_VN_WL74_PHEV_LO_L1				{00,8} /* F195 */
+
+// 24wl74_Phev_lo_l1P
+#define	CODEP_ECU_PN_WL74_PHEV_LO_L1P					{54,56,54,49,56,53,54,54,90,87} /* F132 68618566ZW - L1P EOS Release */
+#define	CODEP_ASSEMBLY_ECU_PN_WL74_PHEV_LO_L1P			{54,56,54,49,56,53,54,54,90,87} /* F133 68618566ZW - L1P EOS Release */
+#define	SUPLR_MNF_ECU_SW_PN_WL74_PHEV_LO_L1P			{68,75,51,52,52,57,56,55,32,32,32} /*F194  24WL74 L1P - EOS DK344987 */
+#define	SUPLR_MNF_ECU_SW_VN_WL74_PHEV_LO_L1P			{00,9} /* F195 */
+
+// M182_M189_Lo_L1_ROW
+#define CODEP_ECU_PN_M182_M189_Lo_L1_ROW             {0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20} /* F187 */
+#define CODEP_ASSEMBLY_ECU_PN_M182_M189_Lo_L1_ROW    {0,0,0,0,0,0,0,0,0,0,0} /* F134 */
+#define FCA_ESLM_ECU_SW_NUM_M182_M189_Lo_L1_ROW      {0,0,0,0,0,0,0,0,0,0,0} /* F188 */
+#define SUPLR_MNF_ECU_SW_PN_M182__M189_Lo_L1_ROW     {0,0,0,0,0,0,0,0,0,0,0} /* F194 */
+#define SUPLR_MNF_ECU_SW_VN_M182_M189_Lo_L1_ROW      {0,0} /* F195 */
+
+// M182_M189_Lo_L2_ROW
+#define CODEP_ECU_PN_M182_M189_Lo_L2_ROW             {0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20}  /* F187 */
+#define CODEP_ASSEMBLY_ECU_PN_M182_M189_Lo_L2_ROW    {0,0,0,0,0,0,0,0,0,0,0} /* F134 */
+#define FCA_ESLM_ECU_SW_NUM_M182_M189_Lo_L2_ROW      {0,0,0,0,0,0,0,0,0,0,0} /* F188 */
+#define SUPLR_MNF_ECU_SW_PN_M182__M189_Lo_L2_ROW     {0,0,0,0,0,0,0,0,0,0,0} /* F194 */
+#define SUPLR_MNF_ECU_SW_VN_M182_M189_Lo_L2_ROW      {0,0} /* F195 */
+
+// M182_M189_Lo_L1_CHINA
+#define CODEP_ECU_PN_M182_M189_Lo_L1_CHINA             {0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20} /* F187 */
+#define CODEP_ASSEMBLY_ECU_PN_M182_M189_Lo_L1_CHINA    {0,0,0,0,0,0,0,0,0,0,0} /* F134 */
+#define FCA_ESLM_ECU_SW_NUM_M182_M189_Lo_L1_CHINA      {0,0,0,0,0,0,0,0,0,0,0} /* F188 */
+#define SUPLR_MNF_ECU_SW_PN_M182__M189_Lo_L1_CHINA     {0,0,0,0,0,0,0,0,0,0,0} /* F194 */
+#define SUPLR_MNF_ECU_SW_VN_M182_M189_Lo_L1_CHINA      {0,0} /* F195 */
+
+#define FILE_HEADER                                     {0}
+#define	CERTSTORE_DLC                                   {0}
+#define	SECOND_RESERVED                                 {0}
+
+
+/*******************     $FD23 Tracker Version - WI-65739      *******************/
+/*********      360_TRACKER_VERSION     **********************/
+#define  TRACKER_360_MAJOR_VERSION        ((uint8)10u)
+#define  TRACKER_360_MINOR_VERSION        ((uint8)15u)
+#define  TRACKER_360_FIELD_VERSION        ((uint8)42u)
+#define  TRACKER_360_WRAPPER_VERSION      ((uint8)0u)
+/*************      VSE_VERSION     **************************/
+#define  VSE_MAJOR_VERSION 	              ((uint8)18u)
+#define  VSE_MINOR_VERSION 	              ((uint8)0u)
+#define  VSE_FIELD_VERSION 	              ((uint8)0u)
+#define  VSE_WRAPPER_VERSION 	          ((uint8)0u)
+/***********      SPP_OTP_VERSION     ************************/
+#define  SPP_OTP_MAJOR_VERSION            ((uint8)16u)
+#define  SPP_OTP_MINOR_VERSION            ((uint8)27u)
+#define  SPP_OTP_FIELD_VERSION            ((uint8)0u)
+#define  SPP_OTP_WRAPPER_VERSION 	      ((uint8)8u)
+/************      SATA_VERSION     *************************/
+#define  SATA_MAJOR_VERSION 	          ((uint8)6u)
+#define  SATA_MINOR_VERSION 	          ((uint8)6u)
+#define  SATA_FIELD_VERSION 	          ((uint8)3u)
+#define  SATA_WRAPPER_VERSION             ((uint8)28u)
+/*******************      FD22     ********************************/
+#define FMV_INPUT_WRAPPER_SWC_VERSION                ((uint16)1102U)
+#define FMV_VEHICLE_STATUS_SWC_VERSION               ((uint16)1200U)
+/*******     INHIBIT MANAGE     ************/
+#define FMV_INHIBIT_MANAGER_SWC_MAJOR_VERSION              ((uint16)1U)
+#define FMV_INHIBIT_MANAGER_SWC_MINOR_VERSION              ((uint16)1U)
+#define FMV_INHIBIT_MANAGER_SWC_FIELD_VERSION              ((uint16)0U)
+/*******     ADAPTIVE CRUISE CONTROL     ************/
+#define FMV_ADAPTIVE_CRUISE_CONTROL_SWC_MAJOR_VERSION      ((uint16)1U)
+#define FMV_ADAPTIVE_CRUISE_CONTROL_SWC_MINOR_VERSION      ((uint16)1U)
+#define FMV_ADAPTIVE_CRUISE_CONTROL_SWC_FIELD_VERSION      ((uint16)0U)
+/*******      COLLISON AVOIDANCE    ************/
+#define FMV_COLLISION_AVOIDANCE_SWC_MAJOR_VERSION          ((uint16)35U)
+#define FMV_COLLISION_AVOIDANCE_SWC_MINOR_VERSION          ((uint16)0U)
+#define FMV_COLLISION_AVOIDANCE_SWC_FIELD_VERSION          ((uint16)0U)
+#define FMV_LATERAL_CONTROL_SWC_VERSION              ((uint16)2748U)
+#define FMV_SAF_SWC_VERSION                          ((uint16)1918U)
+#define FMV_SIDE_FEATURES_SWC_VERSION                ((uint16)2735U)
+/*******      HMI   ************/
+#define FMV_HMI_SWC_MAJOR_VERSION                          ((uint16)1U)
+#define FMV_HMI_SWC_MINOR_VERSION                          ((uint16)0U)
+#define FMV_HMI_SWC_FIELD_VERSION                          ((uint16)0U)
+#define FMV_OUTPUT_WRAPPER_SWC_VERSION               ((uint16)321U)
+/*******************      FD02     ********************************/
+#define FD02_FD_CAN3_DBC_CalYear       ((uint8_t) 23U)
+#define FD02_FD_CAN3_DBC_CalWeek       ((uint8_t) 2U)
+#define FD02_FD_CAN3_DBC_Version       ((uint8_t) 160U)   /* 0xA0 */
+#define FD02_FD_CAN14_DBC_CalYear      ((uint8_t) 23U)
+#define FD02_FD_CAN14_DBC_CalWeek      ((uint8_t) 2U)
+#define FD02_FD_CAN14_DBC_Version      ((uint8_t) 160U)   /* 0xA0 */
+#define FD02_FD_CANSB1_DBC_CalYear     ((uint8_t) 20U)
+#define FD02_FD_CANSB1_DBC_CalWeek     ((uint8_t) 45U)    /* July 14th */
+#define FD02_FD_CANSB1_DBC_Version     ((uint8_t) 177U)   /* 0xB1 */
+#define FD02_FD_CANSB2_DBC_CalYear     ((uint8_t) 20U)
+#define FD02_FD_CANSB2_DBC_CalWeek     ((uint8_t) 45U)    /* Sept 8th */
+#define FD02_FD_CANSB2_DBC_Version     ((uint8_t) 177U)   /* 0xB1 */
+
+/*******************      FA13     ********************************/
+#define F1A3_MODE_0X03_ALGORITHM_ID_NUMBER			 ((uint16)0u)
+#define F1A3_MODE_0X05_ALGORITHM_ID_NUMBER		     ((uint16)844u)
+#define F1A3_MODE_0X07_ALGORITHM_ID_NUMBER			 ((uint16)0u)
+#define F1A3_MODE_0X09_ALGORITHM_ID_NUMBER			 ((uint16)0u)
+
+/*******************      FA12     ********************************/
+#define VECTOR_RELEASE_VERSION					(0x220714) /* SIP Version */
+#define VECTOR_LICENSE_NUMBER					(0x01800931)
+#define VECTOR_DELIVERY_NUMBER					(9U) /* D09 */
+#define AUTOSAR_REVISION						(04U) /* AutSAR Version 4.2/4.3 */		
+#define SOFTWARE_LICENSE_PACKAGE				(05U) /* SLP5 */
+/*This Values are taken from autosar_packages/sip/Doc/DeliveryInformation/DeliveryDescription_CBD1800931.html,versio.info*/
+
+/***************** SB1 & SB2 *************************************/
+#define PCAN_DBC_MAJOR_VERSION     ((uint8)0x07U)
+#define PCAN_DBC_MINOR_VERSION     ((uint8)0x02U)
+
+/*****************PFALSH_SWP2_VERSION **********************************/
+#define PFLASH_SWP2_VERSION_MAJOR  ((uint8_t)0U)
+#define PFLASH_SWP2_VERSION_MINOR  ((uint8_t)0U)
+#define PFLASH_SWP2_VERSION_PATCH  ((uint8_t)0U)
+
+/***********************************************************************************************************************
+ *  TYPE DEFINITIONS
+ *  TYPE DEFINITIONS
+ **********************************************************************************************************************/
+
+typedef struct 
+{
+   uint32_t  headersize;
+   uint32_t  filesize;
+   uint8_t   filedigest[32];
+   uint8_t   signingname[64];
+   uint8_t   signingkeyidentifier[32];
+   uint8_t   targetname[16];
+   uint32_t  rollbackid;
+   uint32_t  compatibilityid;
+   uint8_t   uuid[16];
+   uint8_t   headersignature[256];
+   uint8_t   reserved[16];
+}File_Header_T;     /* Application \ Calibration File Header*/
+
+typedef struct 
+{
+    uint32_t header;
+   uint8_t  sw_build_year;
+   uint8_t  sw_build_week;
+   uint8_t  sw_build_patch;
+   uint8_t  sw_identification_swl1[10];
+   uint8_t  sw_ebom_pn[10];
+   uint8_t  veh_mnf_ecu_scn[10];
+   uint8_t  veh_mnf_ecu_san[10];
+   uint8_t  veh_mnf_ecu_sn[11];   
+   uint8_t  eyeq4_api_major_version;
+   uint8_t  eyeq4_api_minor_version;
+   uint8_t  cv_boot;
+   uint8_t  reserved1;
+   uint8_t  ecu_ddt_version[4];
+   // DT_lo_l1
+   uint8_t  Ebom_ecu_pn_dt_lo_l1[10];
+   uint8_t  reserved2[1];
+   uint8_t  Ebom_assembly_pn_dt_lo_l1[10];
+   uint8_t  reserved3[1];
+   uint8_t  reserved4[11];
+   uint8_t  Suplr_mnf_ecu_sw_pn_dt_lo_l1[11];
+   uint8_t  Suplr_mnf_ecu_sw_vn_dt_lo_l1[2];
+   // DT_lo_l2
+   uint8_t  Ebom_ecu_pn_dt_lo_l2[10];
+   uint8_t  reserved5[1];
+   uint8_t  Ebom_assembly_pn_dt_lo_l2[10];
+   uint8_t  reserved6[1];
+   uint8_t  reserved7[11];
+   uint8_t  Suplr_mnf_ecu_sw_pn_dt_lo_l2[11];
+   uint8_t  Suplr_mnf_ecu_sw_vn_dt_lo_l2[2];
+  // DT_lo_l1p
+   uint8_t  Ebom_ecu_pn_dt_lo_l1p[10];
+   uint8_t  reserved8[1];
+   uint8_t  Ebom_assembly_pn_dt_lo_l1p[10];
+   uint8_t  reserved9[1];
+   uint8_t  reserved10[11];
+   uint8_t  Suplr_mnf_ecu_sw_pn_dt_lo_l1p[11];
+   uint8_t  Suplr_mnf_ecu_sw_vn_dt_lo_l1p[2];    
+   // m182_m189_lo_l2_china
+   uint8_t  Codep_ecu_pn_m182_m189_lo_l2_china[11];
+   uint8_t  Codep_assembly_ecu_pn_m182_m189_lo_l2_china[11];
+   uint8_t  Fca_eslm_ecu_sw_num_m182_m189_lo_l2_china[11];
+   uint8_t  Suplr_mnf_ecu_sw_pn_m182_m189_lo_l2_china[11];
+   uint8_t  Suplr_mnf_ecu_sw_vn_m182_m189_lo_l2_china[2]; 
+   // wl75_lo_l1
+   uint8_t  codep_ecu_pn_wl75_lo_l1[10];
+   uint8_t  codep_assembly_ecu_pn_wl75_lo_l1[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl75_lo_l1[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl75_lo_l1[2];
+   // wl75_lo_l1p
+   uint8_t  codep_ecu_pn_wl75_lo_l1p[10];
+   uint8_t  codep_assembly_ecu_pn_wl75_lo_l1p[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl75_lo_l1p[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl75_lo_l1p[2];
+   // wl75_lo_l2
+   uint8_t  codep_ecu_pn_wl75_lo_l2[10];
+   uint8_t  codep_assembly_ecu_pn_wl75_lo_l2[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl75_lo_l2[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl75_lo_l2[2];
+   // ws_lo_l1
+   uint8_t  codep_ecu_pn_ws_lo_l1[10];
+   uint8_t  codep_assembly_ecu_pn_ws_lo_l1[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_ws_lo_l1[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_ws_lo_l1[2];
+   // ws_lo_l1p
+   uint8_t  codep_ecu_pn_ws_lo_l1p[10];
+   uint8_t  codep_assembly_ecu_pn_ws_lo_l1p[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_ws_lo_l1p[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_ws_lo_l1p[2];
+   // ws_lo_l2
+   uint8_t  codep_ecu_pn_ws_lo_l2[10];
+   uint8_t  codep_assembly_ecu_pn_ws_lo_l2[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_ws_lo_l2[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_ws_lo_l2[2];
+   // wl74_lo_l1
+   uint8_t  codep_ecu_pn_wl74_lo_l1[10];
+   uint8_t  codep_assembly_ecu_pn_wl74_lo_l1[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl74_lo_l1[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl74_lo_l1[2];
+   // wl74_lo_l1p
+   uint8_t  codep_ecu_pn_wl74_lo_l1p[10];
+   uint8_t  codep_assembly_ecu_pn_wl74_lo_l1p[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl74_lo_l1p[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl74_lo_l1p[2];
+   // wl74_lo_l2
+   uint8_t  codep_ecu_pn_wl74_lo_l2[10];
+   uint8_t  codep_assembly_ecu_pn_wl74_lo_l2[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl74_lo_l2[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl74_lo_l2[2];
+   // wl74_phev_lo_l1
+   uint8_t  codep_ecu_pn_wl74_phev_lo_l1[10];
+   uint8_t  codep_assembly_ecu_pn_wl74_phev_lo_l1[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl74_phev_lo_l1[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl74_phev_lo_l1[2];
+   // wl74_phev_lo_l1p
+   uint8_t  codep_ecu_pn_wl74_phev_lo_l1p[10];
+   uint8_t  codep_assembly_ecu_pn_wl74_phev_lo_l1p[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl74_phev_lo_l1p[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl74_phev_lo_l1p[2];
+   // wl74_phev_lo_l2
+   uint8_t  codep_ecu_pn_wl74_phev_lo_l2[10];
+   uint8_t  codep_assembly_ecu_pn_wl74_phev_lo_l2[10];
+   uint8_t  suplr_mnf_ecu_sw_pn_wl74_phev_lo_l2[11];
+   uint8_t  suplr_mnf_ecu_sw_vn_wl74_phev_lo_l2[2];
+
+   //m182_m189_lo_l1_row
+   uint8_t codep_ecu_pn_m182_m189_lo_l1_row[11];
+   uint8_t codep_assembly_ecu_pn_m182_m189_lo_l1_row[11];
+   uint8_t fca_eslm_ecu_sw_num_m182_m189_lo_l1_row[11];
+   uint8_t suplr_mnf_ecu_sw_pn_m182_m189_lo_l1_row[11];
+   uint8_t suplr_mnf_ecu_sw_vn_m182_m189_lo_l1_row[2];
+
+   //m182_m189_lo_l2_row
+   uint8_t codep_ecu_pn_m182_m189_lo_l2_row[11];
+   uint8_t codep_assembly_ecu_pn_m182_m189_lo_l2_row[11];
+   uint8_t fca_eslm_ecu_sw_num_m182_m189_lo_l2_row[11];
+   uint8_t suplr_mnf_ecu_sw_pn_m182_m189_lo_l2_row[11];
+   uint8_t suplr_mnf_ecu_sw_vn_m182_m189_lo_l2_row[2];
+
+   //m182_m189_lo_l1_china
+   uint8_t codep_ecu_pn_m182_m189_lo_l1_china[11];
+   uint8_t codep_assembly_ecu_pn_m182_m189_lo_l1_china[11];
+   uint8_t fca_eslm_ecu_sw_num_m182_m189_lo_l1_china[11];
+   uint8_t suplr_mnf_ecu_sw_pn_m182_m189_lo_l1_china[11];
+   uint8_t suplr_mnf_ecu_sw_vn_m182_m189_lo_l1_china[2];
+   
+   uint8_t  reserved[374];  
+   uint8_t  file_header[448];   
+   uint8_t  certstore_dlc[40800];
+   uint8_t  second_reserved[1632];
+}SWL1_File_Data_T;     /*Application File Data */
+
+typedef struct 
+{
+   uint32_t header;
+   uint8_t  sw_build_year;
+   uint8_t  sw_build_week;
+   uint8_t  sw_build_patch;
+   uint8_t  sw_identification_swl2[10];
+   uint8_t  sw_ebom_pn[10];
+   uint8_t  ebom_ecu_pn[10];
+   uint8_t  ebom_assembly_pn[10];
+}SWL2_File_Data_T;     /*Application File Data */
+
+typedef struct 
+{
+   uint32_t header;
+   uint8_t  sw_build_year;
+   uint8_t  sw_build_week;
+   uint8_t  sw_build_patch;
+   uint8_t  sw_identification_swl3[10];
+   uint8_t  sw_ebom_pn[10];
+   uint8_t  ebom_ecu_pn[10];
+   uint8_t  ebom_assembly_pn[10];
+}SWL3_File_Data_T;     /*Application File Data */
+
+typedef struct 
+{
+   uint32_t header;
+   uint8_t  sw_build_year;
+   uint8_t  sw_build_week;
+   uint8_t  sw_build_patch;
+   uint8_t  sw_identification_swp1[10];
+   uint8_t  sw_ebom_pn[10];
+   uint8_t  ebom_ecu_pn[10];
+   uint8_t  ebom_assembly_pn[10];
+   uint8_t  swpx_date_stamp[24];
+   uint8_t  pflash_swpx_version_major;
+   uint8_t  pflash_swpx_version_minor;
+   uint8_t  pflash_swpx_version_patch;
+   uint8_t  reserved[6];
+}CalP1_File_Data_T;     /*Calibration File Data */
+
+typedef struct 
+{
+   uint32_t header;
+   uint8_t  sw_build_year;
+   uint8_t  sw_build_week;
+   uint8_t  sw_build_patch;
+   uint8_t  sw_identification_swp2[10];
+   uint8_t  sw_ebom_pn[10];
+   uint8_t  ebom_ecu_pn[10];
+   uint8_t  ebom_assembly_pn[10];
+   uint8_t  swpx_date_stamp[24];
+   uint8_t  pflash_swpx_version_major;
+   uint8_t  pflash_swpx_version_minor;
+   uint8_t  pflash_swpx_version_patch;
+   uint8_t  reserved[6];
+}CalP2_File_Data_T;     /*Calibration File Data */
+
+typedef struct 
+{
+   uint32_t header;
+   uint8_t  sw_build_year;
+   uint8_t  sw_build_week;
+   uint8_t  sw_build_patch;
+   uint8_t  sw_identification_swp4[10];
+   uint8_t  sw_ebom_pn[10];
+   uint8_t  ebom_ecu_pn[10];
+   uint8_t  ebom_assembly_pn[10];
+   uint8_t  swpx_date_stamp[24];
+   uint8_t  pflash_swpx_version_major;
+   uint8_t  pflash_swpx_version_minor;
+   uint8_t  pflash_swpx_version_patch;
+   uint8_t  reserved[6];
+}CalP4_File_Data_T;     /*Calibration File Data */
+
+typedef struct 
+{
+   uint32_t  swlx_footer_signature;
+   uint32_t  swlx_footer_cksum;
+}App_File_Footer_T;   /* Application File Footer */
+
+typedef struct 
+{
+   uint32_t  swpx_footer_signature;
+   uint32_t  swpx_footer_cksum;
+}Cal_File_Footer_T;   /* Calibration File Footer */
+
+#endif /* __FBL_MAIN_H__ */
+
+/***********************************************************************************************************************
+ *  REVISION HISTORY
+ *  --------------------------------------------------------------------------------------------------------------------
+ *  Version    Date        Author  Change Id        Description
+ *  --------------------------------------------------------------------------------------------------------------------
+ *  00.00.00   2019-04-17  AHisham     -           First implementation, based on WI-39376 Host Req.
+ *  00.00.01   2019-04-28  Pdesai      -           updated  implementation, based on WI-39376 Host Req.
+ *  00.00.02   2019-06-20  MAttya      -           updated  implementation, based on WI-39376 and WI-39373 Host Req. 
+ *  00.00.03   2019-07-16  SGone       -           updated  implementation, based on WI-39376 for PWB Content.
+ *  00.00.04   2019-09-03  SGone       -           Renamed Host SPI version to Eye API Version Major and Minor.(CXJ-605)
+ *  00.00.05   2020-02-25  SGone       -           Added EyeQ SW API Major and Minor version.
+ *  00.00.06   2020-03-02  SGadikota   -           Updated CV_BOOT values for SWL1, SWL2, SWL3, SWP1, SWP2, SWP4
+ *  00.00.07   2020-07-28  SGone       -           Modified the EyeQ SW version to EyeQ API version in the SWL1 structure
+ *  00.00.08   2020-08-17  MMahmoud    -           updated F1A3_MODE_0X03_ALGORITHM_ID_NUMBER,F1A3_MODE_0X07_ALGORITHM_ID_NUMBER,F1A3_MODE_0X09_ALGORITHM_ID_NUMBER values , based on WI-110384  DID F1A3 
+ *  00.00.09   2020-11-02  Rahul       -           Macros for PCAN DBC MAJOR/MINOR version number added
+ *  00.00.10   2020-11-16  Rahul       -           Macro for PCAN DBC MINOR version number changed to 2
+ *  00.00.11   2021-01-06  MMahmoud    -           updated  implementation, based on WI-39374 Host Req. (adding pflash_swpx_version parameters)
+ *  00.00.12   2022-05-19  Bhavishyan  -           Updated Implementation for SWL1 struture for DT BOS as per WI-546922
+ *  00.00.13   2022-09-30  Goverdhan       -       Updated EyeQ SW API Major and Minor version.
+ *  00.00.14   2023-03-26  Eslam.H     -           Updated ECU_DDT_VERSION version to match 24WL CADM-LO
+ **********************************************************************************************************************/
