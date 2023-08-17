@@ -1,2 +1,3 @@
 print("working....")
-print(BUILD)
+print(os.environ['BUILD'])
+print(os.environ['PATCH'])
