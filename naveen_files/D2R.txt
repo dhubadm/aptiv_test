@@ -1,0 +1,226 @@
+def call(Map_PipelineParams) {
+  def DAT2_setup = new DAT2.Setup()
+  def DAT2_build = new DAT2.Build()
+  def utils = new Main.Utils()
+  def jfrog = new Main.Jfrog()
+  def tasking = new Main.Tasking()
+  def covbazel = new Main.CovBazel()
+
+  def SKIP_STAGES = []
+  def Boolean build_failed = false
+  def TASKING_LICENSE_SERVER = "nlnhsrk-ap108.Aptiv.com:7594"
+  def TASKING_LICENSE_FILE = "C:\\Compiler\\TASKING\\TriCorev6.3r1\\etc\\licopt.txt"
+
+  pipeline {
+    options {
+      timestamps()
+      buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '4', daysToKeepStr: '', numToKeepStr: '90')
+    }
+    agent none
+    environment {
+      VARIANT= 'P702'
+      AURIX_WORKSPACE = "build"
+      COMPILE_PATH = "${AURIX_WORKSPACE}\\build_files\\aptiv_specific\\python_scripts"
+      FORD_BUILD_PATH = "${AURIX_WORKSPACE}\\adas_ecu_host_v${RELEASE_VERSION}\\build_files\\ford_specific\\python_scripts"
+      VALEO_BUILD_PATH = "${AURIX_WORKSPACE}\\adas_ecu_host_v${RELEASE_VERSION}\\build_files\\valeo_specific\\python_scripts"
+      OUTPUT_PATH = "${AURIX_WORKSPACE}\\build_files\\shared\\output\\${VARIANT}\\app\\m"
+      COMMON_REPORT_GEN_PATH = "${AURIX_WORKSPACE}\\build_files\\aptiv_specific\\dynamic_reports\\${VARIANT}"
+      STATIC_REPORT_GEN_PATH = "${AURIX_WORKSPACE}\\build_files\\aptiv_specific\\static_reports\\${VARIANT}"
+      BUILD_NAME = "adas_ecu_host_v${RELEASE_VERSION}"
+      TEMP_BUILD_NAME = "TEMP_adas_ecu_host_v${RELEASE_VERSION}"
+      BUILD_FLAGS = "-name ${TEMP_BUILD_NAME}"
+      APP_SCRIPT_FLAGS = "-jenkins -cache -cores"
+      ARTIFACTORY_REPOSITORY = "adas_dat_aurix-ford-10033794"
+      JFROG_BUILD_NAME = "DAT2_Aurix_${MODEL}_${JOB_BASE_NAME}"
+      JFROG_FORD_DIR = "${ARTIFACTORY_REPOSITORY}-releases-generic-local/Train22X_Aurix/External/Ford/${RELEASE_VERSION}"
+      JFROG_VALEO_DIR = "${ARTIFACTORY_REPOSITORY}-releases-generic-local/Train22X_Aurix/External/Valeo/${RELEASE_VERSION}"
+      PLASTIC_REPOSITORY = "10031600_MY21_Ford_DAT2_ADAS_HOST"
+      TASKING_INSTALL_PATH = "C:\\Compiler\\TASKING\\TriCorev6.3r1"
+      ECU_NODE_TYPE = "DAT2.1_ECU"
+      PYTHON_COMMAND = "python"
+    }
+    stages {
+      stage("Verify Inputs") {
+        steps {
+          script {
+            if ("${RELEASE_VERSION}" ==~ /1\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
+              echo "Release version is valid: ${RELEASE_VERSION}"
+            }
+            else {
+              error "Invalid release version: ${RELEASE_VERSION}"
+            }
+          }
+        }
+      }
+      stage("Create Ford/Valeo ERelease") {
+        stages {
+          stage("Aurix Compilation") {
+            steps {
+              script {
+                tasking.withPod(yamlFile:'podAurix.yaml') {
+                  def windows_workspace_path = utils.getWindowsWorkspace()
+                  DAT2_setup.initializeNode(plasticBranch:"${PLASTIC_BRANCH}",
+                                            plasticWorkspace:"${AURIX_WORKSPACE}",
+                                            remoteCacheUpload:'beforeMerge'!=jobType)
+
+                  tasking.withLicense() {
+                    echo "Building the project"
+                    dir("${COMPILE_PATH}") {
+                      utils.executeCommand(".", "${PYTHON_COMMAND} aptiv_host_build.py ${APP_SCRIPT_FLAGS} ${utils.getNumOfCores()} erelease ${BUILD_FLAGS}")
+                    }
+                  }
+
+                  dir("${OUTPUT_PATH}"){
+                    utils.executeCommand(".", "copy * ${windows_workspace_path}\\out")
+                  }
+
+                  // Upload temp Ford release to Artifactory
+                  jfrog.uploadFolder("${WORKSPACE}\\${AURIX_WORKSPACE}\\build_files\\ford_specific\\releases", "${JFROG_FORD_DIR}/", "${JFROG_BUILD_NAME}", "${BUILD_NUMBER}", "BRANCH=${PLASTIC_BRANCH};REPOSITORY=${PLASTIC_REPOSITORY};JOB_TYPE=${jobType}")
+                  utils.append_build_description("<A HREF=\"https://jfrog.asux.aptiv.com/ui/repos/tree/General/${ARTIFACTORY_REPOSITORY}-releases-generic-local/Train22X_Aurix/External/Ford\">Ford ERelease Temporary Build</A>")
+
+                  // Upload temp Valeo release to Artifactory
+                  jfrog.uploadFolder("${WORKSPACE}\\${AURIX_WORKSPACE}\\build_files\\valeo_specific\\releases", "${JFROG_VALEO_DIR}/", "${JFROG_BUILD_NAME}", "${BUILD_NUMBER}", "BRANCH=${PLASTIC_BRANCH};REPOSITORY=${PLASTIC_REPOSITORY};JOB_TYPE=${jobType}")
+                  utils.append_build_description("<A HREF=\"https://jfrog.asux.aptiv.com/ui/repos/tree/General/${ARTIFACTORY_REPOSITORY}-releases-generic-local/Train22X_Aurix/External/Valeo\">Valeo ERelease Temporary Build</A>")
+
+                  dir("${AURIX_WORKSPACE}") {
+                    DAT2_build.checkCompilerWarnings('postMerge'==jobType)
+                  }
+
+                  utils.runCloc("${WORKSPACE}\\${AURIX_WORKSPACE}\\aptiv_sw\\integration", 'C,C++,"C/C++ Header",Assembly', "${WORKSPACE}\\out\\cloc.xml")
+                  sloccountPublish encoding: '', ignoreBuildFailure: true, pattern: 'out/cloc.xml'
+                }
+              }
+            }
+          }
+        }
+      }
+      stage("Parallel Testing") {
+        parallel {
+          stage("Build Ford Release") {
+            steps {
+              script{
+                // Test Ford build functionality
+                tasking.withPod(yamlFile:'podAurix.yaml') {
+                  echo "Test Ford Release"
+
+                  withCredentials([usernamePassword(credentialsId: "SID_ACTSFY_SW_GERRIT", usernameVariable: "SID_USERNAME_GERRIT",passwordVariable: "SID_PASSWORD_GERRIT")]) {
+                    // Setup cov-bazel.
+                    covbazel.setup("${SID_USERNAME_GERRIT}", "${SID_PASSWORD_GERRIT}", "release/v1.x")
+                  }
+
+                  // Setup the Jfrog client
+                  withCredentials([usernamePassword(credentialsId: "sid_for_jfrog", usernameVariable: "SID_USERNAME",passwordVariable: "SID_KEY")]) {
+                    jfrog.setup("https://jfrog.asux.aptiv.com", "${SID_USERNAME}", "${SID_KEY}")
+                  }
+
+                  // Download Ford release from Artifactory
+                  dir ("${WORKSPACE}\\${AURIX_WORKSPACE}\\") {
+                    jfrog.downloadFile("${JFROG_FORD_DIR}/${TEMP_BUILD_NAME}.zip")
+                  }
+
+                  echo "Unzipping Release..."
+                  unzip dir: "${WORKSPACE}\\${AURIX_WORKSPACE}\\${BUILD_NAME}", glob: '', zipFile: "${WORKSPACE}\\${AURIX_WORKSPACE}\\${TEMP_BUILD_NAME}.zip"
+                  tasking.withLicense() {
+                    echo "Release Unzipped. Building Release..."
+                    dir("${FORD_BUILD_PATH}") {
+                      build_failed = utils.executeCommand(".", "python ford_host_build.py -aptiv -model P702 -val_temp -ford_swc_temp build -lib V_SWC -app -convert_to_vbf").return_code
+                    }
+                  }
+
+                  if (build_failed) {
+                    echo "Building Ford Release Failed!"
+                  }  else {
+                    echo "Ford Release Built Successfully"
+                    echo "Uploading output files..."
+                    // Upload temp Ford release to Artifactory
+                    zip dir: "${AURIX_WORKSPACE}\\adas_ecu_host_v${RELEASE_VERSION}\\build_files\\shared\\output\\P702", exclude: '', glob: '', zipFile: "${AURIX_WORKSPACE}\\adas_ecu_host_v${RELEASE_VERSION}\\build_files\\shared\\output\\output.zip"
+                    jfrog.uploadFile("${AURIX_WORKSPACE}\\adas_ecu_host_v${RELEASE_VERSION}\\build_files\\shared\\output\\output.zip", "${JFROG_FORD_DIR}/", "${JFROG_BUILD_NAME}", "${BUILD_NUMBER}", "BRANCH=${PLASTIC_BRANCH};REPOSITORY=${PLASTIC_REPOSITORY};JOB_TYPE=${jobType}")
+                    utils.append_build_description("<A HREF=\"https://jfrog.asux.aptiv.com/ui/repos/tree/General/${ARTIFACTORY_REPOSITORY}-releases-generic-local/Train22X_Aurix/External/Ford\">Ford ERelease Build</A>")
+                  }
+                }
+              }
+            }
+          }
+          stage("Build Valeo Release") {
+            steps {
+              script{
+                // Test Valeo build functionality
+                tasking.withPod(yamlFile:'podAurix.yaml') {
+                  echo "Test Valeo Release"
+
+                  withCredentials([usernamePassword(credentialsId: "SID_ACTSFY_SW_GERRIT", usernameVariable: "SID_USERNAME_GERRIT",passwordVariable: "SID_PASSWORD_GERRIT")]) {
+                    // Setup cov-bazel.
+                    covbazel.setup("${SID_USERNAME_GERRIT}", "${SID_PASSWORD_GERRIT}", "release/v1.x")
+                  }
+
+                  // Setup the Jfrog client
+                  withCredentials([usernamePassword(credentialsId: "sid_for_jfrog", usernameVariable: "SID_USERNAME",passwordVariable: "SID_KEY")]) {
+                    jfrog.setup("https://jfrog.asux.aptiv.com", "${SID_USERNAME}", "${SID_KEY}")
+                  }
+
+
+                  // Download Valeo release from Artifactory
+                  dir ("${WORKSPACE}\\${AURIX_WORKSPACE}\\") {
+                    jfrog.downloadFile("${JFROG_VALEO_DIR}/${TEMP_BUILD_NAME}.zip")
+                  }
+
+                  echo "Unzipping Release..."
+                  unzip dir: "${WORKSPACE}\\${AURIX_WORKSPACE}\\${BUILD_NAME}", glob: '', zipFile: "${WORKSPACE}\\${AURIX_WORKSPACE}\\${TEMP_BUILD_NAME}.zip"
+                  echo "Release Unzipped. Building Release..."
+                  tasking.withLicense() {
+                    dir("${VALEO_BUILD_PATH}") {
+                      build_failed = utils.executeCommand(".", "python valeo_host_build.py -aptiv -model P702 -val_temp -ford_swc_temp build -lib V_SWC -app -convert_to_vbf").return_code
+                    }
+                  }
+
+                  if (build_failed) {
+                    echo "Building Valeo Release Failed!"
+                  }  else {
+                    echo "Valeo Release Built Successfully"
+                    // Upload temp Valeo release to Artifactory
+                    zip dir: "${AURIX_WORKSPACE}\\adas_ecu_host_v${RELEASE_VERSION}\\build_files\\shared\\output\\P702", exclude: '', glob: '', zipFile: "${AURIX_WORKSPACE}\\adas_ecu_host_v${RELEASE_VERSION}\\build_files\\shared\\output\\output.zip"
+                    jfrog.uploadFile("${AURIX_WORKSPACE}\\adas_ecu_host_v${RELEASE_VERSION}\\build_files\\shared\\output\\output.zip", "${JFROG_VALEO_DIR}/", "${JFROG_BUILD_NAME}", "${BUILD_NUMBER}", "BRANCH=${PLASTIC_BRANCH};REPOSITORY=${PLASTIC_REPOSITORY};JOB_TYPE=${jobType}")
+                    utils.append_build_description("<A HREF=\"https://jfrog.asux.aptiv.com/ui/repos/tree/General/${ARTIFACTORY_REPOSITORY}-releases-generic-local/Train22X_Aurix/External/Valeo\">Valeo ERelease Build</A>")
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      stage("Archive Artifacts") {
+        steps{
+          script{
+            podTemplate(yaml: libraryResource('podAurix_2core.yaml', podRetention: onFailure(), activeDeadlineSeconds: 20000)) {
+              node(POD_LABEL) {
+                container('windows') {
+                  echo "no_upload: ${no_upload}"
+                  echo "build_failed: ${build_failed}"
+                  // Setup the Jfrog client
+                  withCredentials([usernamePassword(credentialsId: "sid_for_jfrog", usernameVariable: "SID_USERNAME",passwordVariable: "SID_KEY")]) {
+                    jfrog.setup("https://jfrog.asux.aptiv.com", "${SID_USERNAME}", "${SID_KEY}")
+                  }
+                  if (no_upload == 'false' && !build_failed) {
+                    // Rename Ford release in Artifactory
+                    jfrog.renameFile("${JFROG_FORD_DIR}/${TEMP_BUILD_NAME}.zip", "${JFROG_FORD_DIR}/${BUILD_NAME}.zip")
+
+                    // Rename Valeo release in Artifactory
+                    jfrog.renameFile("${JFROG_VALEO_DIR}/${TEMP_BUILD_NAME}.zip", "${JFROG_VALEO_DIR}/${BUILD_NAME}.zip")
+
+                  } else {
+                    // Delete artifacts
+                    jfrog.deleteFile("${JFROG_FORD_DIR}/")
+                    jfrog.deleteFile("${JFROG_VALEO_DIR}/")
+                  }
+                  if (build_failed) {
+                    unstable "One or more release builds failed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
