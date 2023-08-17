@@ -72,7 +72,7 @@ def replace_fd22():
 def replace_fd02():
     global filedata
     print("[DEBUG] Executing >>> ", sys._getframe().f_code.co_name)
-    print(glob.glob(dbc_filepath + 'P' + BUILD + '*FDCAN*.dbc') + "...........")
+    print(glob.glob(dbc_filepath + 'P' + BUILD + '*FDCAN*.dbc'))
     for file_name in glob.glob(dbc_filepath + 'P' + BUILD + '*FDCAN*.dbc'): 
         with open(file_name, 'r') as file :
             FDCAN = file.read() 
@@ -108,7 +108,7 @@ with open(infile, 'r') as file :
         replace_swbuild()
         replace_fd23()
         replace_fd22()
-        replace_fd02()
+        #replace_fd02()
         partnum_obj = declare_partnumbers()
         partnum_list = [attr for attr in dir(partnum_obj) if not callable(getattr(partnum_obj, attr)) and not attr.startswith("__")]
         for partnum in partnum_list:
