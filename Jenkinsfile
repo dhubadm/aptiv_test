@@ -31,6 +31,7 @@ pipeline {
 						println " '${param.key.trim()}' -> '${param.value.trim()}' "
 						env.'${param.key.trim()}' = '${param.value.trim()}'
 					}
+					sh 'ls -lart; printenv'
                 }
             }
         }
