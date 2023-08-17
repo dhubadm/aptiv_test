@@ -29,7 +29,7 @@ pipeline {
 					params.each {param ->
 						//if ("${param.value.trim()}" == "") {ex("'${param.key.trim()}'")}
 						println " '${param.key.trim()}' -> '${param.value.trim()}' "
-						env.${param.key} = "'${param.value}'"
+						env.'${param.key}' = "'${param.value}'"
 					}
                 }
             }
