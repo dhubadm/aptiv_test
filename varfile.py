@@ -4,7 +4,7 @@
 #dbc_filepath="C:/Users/aksha/OneDrive/Documents/naveen_files/"
 infile = "File_Data.txt"
 outfile = "File_Data2.txt"
-dbc_filepath="dbc/"
+dbc_filepath="naveen_files/"
 
 #Expected <build> values >>> DT|WL75|WL74|WS
 BUILD='WL74' 
