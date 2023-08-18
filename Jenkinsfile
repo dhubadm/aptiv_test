@@ -48,14 +48,14 @@ pipeline {
 						print " '${param.key.trim()}' -> '${param.value.trim()}' "
 						//sh 'eval "env.${param.key.trim()}=${param.value.trim()}"'
 					}
-			println "${kv}"
                 }
             }
         }
         stage('Pre-Build') {
             steps {
-                echo 'Hello World'
+                //Stage will handle File_Data.h
                 sh 'python3 --version'
+		sh 'pwd;python3 test.py;ls -lart'
             }
         }
 		stage('Build') {
@@ -67,8 +67,8 @@ pipeline {
 										print(os.environ['TEST'])"
 										""".stripIndent(), returnStdout: true).trim()
 					println ACTIVE_CONNECTORS
-					sh 'ls -lart; printenv'
-					sh 'pwd;python3 test.py;ls -lart'
+					//Stage will run BUILD
+					//sh 'python3 aptiv_host_build.py -cache -variant dt -include_spp_otp -cores 16 build -lib ALL -capp -app -no_ds -hll'
 				}
 			}
 			post {
