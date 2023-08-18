@@ -46,16 +46,16 @@ pipeline {
 					params.each {param ->
 						//if ("${param.value.trim()}" == "") {ex("'${param.key.trim()}'")}
 						print " '${param.key.trim()}' -> '${param.value.trim()}' "
-						sh 'eval "env.${param.key.trim()}=${param.value.trim()}"'
+						//sh 'eval "env.${param.key.trim()}=${param.value.trim()}"'
 					}
-			println "${kv}"
                 }
             }
         }
         stage('Pre-Build') {
             steps {
+		load "envVars.groovy"
                 echo 'Hello World'
-                sh 'python3 --version'
+                sh 'python3 --version; printenv'
             }
         }
 		stage('Build') {
@@ -67,8 +67,8 @@ pipeline {
 										print(os.environ['TEST'])"
 										""".stripIndent(), returnStdout: true).trim()
 					println ACTIVE_CONNECTORS
-					sh 'ls -lart; printenv'
-					sh 'pwd;python3 test.py;ls -lart'
+					//sh 'ls -lart; printenv'
+					//sh 'pwd;python3 test.py;ls -lart'
 				}
 			}
 			post {
