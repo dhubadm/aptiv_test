@@ -46,7 +46,7 @@ pipeline {
 					params.each {param ->
 						//if ("${param.value.trim()}" == "") {ex("'${param.key.trim()}'")}
 						print " '${param.key.trim()}' -> '${param.value.trim()}' "
-						sh 'eval "env.${param.key.trim()}=${param.value.trim()}"'
+						//sh 'eval "env.${param.key.trim()}=${param.value.trim()}"'
 					}
 			println "${kv}"
                 }
