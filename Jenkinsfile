@@ -54,8 +54,9 @@ pipeline {
         stage('Pre-Build') {
             steps {
                 //Stage will handle File_Data.h
+		load "envVars.groovy"
                 sh 'python3 --version'
-		sh 'pwd;python3 test.py;ls -lart'
+		sh 'pwd;python3 test.py;printenv'
             }
         }
 		stage('Build') {
